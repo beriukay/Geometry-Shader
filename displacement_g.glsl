@@ -1,4 +1,4 @@
-/*/*
+/*
  * Authors: Paul Gentemann, Bucky Frost
  * Date: Sun Nov 17 08:23:14 AKST 2013
  * File: displacement_g.glsl
@@ -10,14 +10,14 @@
 //This pass through shader is passed off of 
 //http://www.geeks3d.com/20111111/simple-introduction-to-geometry-shaders-glsl-opengl-tutorial-part1
 
-#version 420 core // compatibility 
+#version 330 compatibility 
 
 // Specifing the input and output primitive types.
 layout (triangles) in;
 layout (triangle_strip, max_vertices=3) out;
 
 void main()
-{/*
+{
     //looping over all the input
     for (int i = 0; i < gl_in.length(); i++)
     {
@@ -26,8 +26,5 @@ void main()
     }
 
     EndPrimitive();
-    */
-}*/
-
-void main()
-{}
+    
+}
