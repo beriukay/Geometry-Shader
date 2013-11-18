@@ -5,3 +5,7 @@ Accessed: Sun Nov 17 08:36:05 AKST 2013
 http://www.lighthouse3d.com/tutorials/glsl-core-tutorial/geometry-shader-examples/
 General Info
 Accessed: Sun Nov 17 08:39:11 AKST 2013
+
+http://cirl.missouri.edu/gpu/glsl_lessons/glsl_geometry_shader/index.html
+Good example of how the app and shaders integrate
+Accessed: Sun Nov 17 21:26:09 AKST 2013
