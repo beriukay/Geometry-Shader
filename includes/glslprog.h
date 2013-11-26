@@ -141,6 +141,7 @@ GLhandleARB makeProgramObject(const std::string & vShaderSource,
     glAttachObjectARB(p,
         makeShaderObject(GL_VERTEX_SHADER_ARB, vShaderSource));
     glAttachObjectARB(p,
+     //   makeShaderObject(GL_ARB_geometry_shader4, gShaderSource));
         makeShaderObject(GL_GEOMETRY_SHADER_ARB, gShaderSource));
     glAttachObjectARB(p,
         makeShaderObject(GL_FRAGMENT_SHADER_ARB, fShaderSource));

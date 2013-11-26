@@ -9,3 +9,7 @@ Accessed: Sun Nov 17 08:39:11 AKST 2013
 http://cirl.missouri.edu/gpu/glsl_lessons/glsl_geometry_shader/index.html
 Good example of how the app and shaders integrate
 Accessed: Sun Nov 17 21:26:09 AKST 2013
+
+http://www.ozone3d.net/tutorials/vertex_displacement_mapping.php
+Example of using the v-shader for displacement mapping. Adapt for geo-shader?
+Accessed: Tue Nov 26 02:54:48 AKST 2013
