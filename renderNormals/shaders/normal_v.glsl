@@ -26,6 +26,6 @@ out VS_GS_INTERFACE
 /*My little pass through*/
 void main()
 {
-    gl_Position = gl_ModelViewProjectionMatrix * position;
+    gl_Position = position;
     vs_out.normal = normal;
 }

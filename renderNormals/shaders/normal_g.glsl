@@ -30,13 +30,14 @@ smooth out vec4 color;
 
 
 void main()
-{   
+{ 
+
     for(int i = 0; i < gl_in.length(); ++i)
     {
     	gl_Position = MVP * gl_in[i].gl_Position;
 	EmitVertex();
     }
-/* 
+ 
     for(int i = 0; i < gl_in.length(); ++i)
     {
     	color = vec4(1.0f, 0.3f, 0.3f, 1.0f);
@@ -49,7 +50,7 @@ void main()
 
 	EndPrimitive();
     }
-*/
+
     vec4 cent = (gl_in[0].gl_Position + gl_in[1].gl_Position +
             gl_in[2].gl_Position) / 3.f;
     vec3 face_normal = normalize (

@@ -92,7 +92,11 @@ double shaderfloat1;           // Float to send to shaders
 VBO vbo1, vbo2, vbo3;          // Vertex-Buffer Objects
 int whichobject;               // Which object to draw
 
+GLfloat model[16];
+GLdouble view[16];
+GLdouble perspective[16];
 
+/*
 // drawObject
 // Draws appropriate object at the origin.
 // Uses previously initialized VBOs.
@@ -136,7 +140,7 @@ void drawObject()
         break;
     }
 }
-
+*/
 
 // myDisplay
 // The GLUT display function
@@ -171,7 +175,6 @@ void myDisplay()
     glEnable(GL_DEPTH_TEST);
     glLoadIdentity();
     glTranslated(0., 0., -9.);
-glRotated(rotangle, 1.,2.,1.);
     // Position light source 0 & draw ball there
     glPushMatrix();
     glTranslated(0.0, 0.0, 1.0);
@@ -205,13 +208,24 @@ glRotated(rotangle, 1.,2.,1.);
         {
             glUniform1f(loc, GLfloat(shaderfloat1));
         }
+
+	loc = glGetUniformLocationARB(theprog, "MVP");
+	if (loc != -1)
+	{
+//	    std::cout << "found shader" << std::endl;
+// 	    glPushMatrixd();
+//	    glMultMatrixd(cammat);
+	    glRotated(rotangle, 1.,2.,1.);
+	    glGetFloatv(GL_MODELVIEW_MATRIX, model);
+	    glUniformMatrix4fv(loc, 1, GL_TRUE, model);
+//	    glPopMatrixd();
+	}
     }
 
     // Draw the appropriate object
-    glRotated(rotangle, 1.,2.,1.);
-    
+  
     glColor3d(0.8, 0.4, 0.6);
-    drawBezierPatch(numsubdivs);
+//    drawBezierPatch(numsubdivs);
 
     glBegin(GL_TRIANGLES);
 	glVertex3d(0,1,1);
