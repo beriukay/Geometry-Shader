@@ -13,3 +13,11 @@ Accessed: Sun Nov 17 21:26:09 AKST 2013
 http://www.ozone3d.net/tutorials/vertex_displacement_mapping.php
 Example of using the v-shader for displacement mapping. Adapt for geo-shader?
 Accessed: Tue Nov 26 02:54:48 AKST 2013
+
+http://renderingwonders.wordpress.com/2011/02/07/chapter-11-%E2%80%93-advanced-shader-usage-geometry-shaders/
+Some more examples, explosions, culling, etc.
+Tue Nov 26 19:54:59 AKST 2013
+
+http://classes.soe.ucsc.edu/cmps162/Spring12/s12/labnotes/shaders.html
+For passing matrices to the shaders!
+Thu Nov 28 15:24:54 AKST 2013
