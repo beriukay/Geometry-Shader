@@ -92,9 +92,46 @@ double shaderfloat1;           // Float to send to shaders
 VBO vbo1, vbo2, vbo3;          // Vertex-Buffer Objects
 int whichobject;               // Which object to draw
 
-GLfloat model[16];
-GLdouble view[16];
-GLdouble perspective[16];
+GLfloat modelView[16];
+GLfloat projection[16];
+
+void documentation()
+{
+    // Draw documentation
+    glUseProgramObjectARB(0);     // No shaders
+    glDisable(GL_DEPTH_TEST);
+    glLoadIdentity();
+    glMatrixMode(GL_PROJECTION);  // Set up simple ortho projection
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0., double(winw), 0., double(winh));
+    if (grayback)  // Draw text in a contrasting color
+        glColor3d(0., 0., 0.);
+    else
+        glColor3d(0.7, 0.7, 0.7);
+    BitmapPrinter p(20., winh-20., 20.);
+    ostringstream os;
+    os << numsubdivs;
+    p.print("<- ->    Change # of subdivisions (" + os.str() + ")");
+    string shstrs[3] = {
+        "SHADER/no shader/wireframe",
+        "shader/NO SHADER/wireframe",
+        "shader/no shader/WIREFRAME"
+    };
+    p.print("W        " + shstrs[shade]);
+    p.print("R        Toggle object rotation");
+    p.print("L        Toggle light-source movement");
+    p.print(string("Space    Toggle shader boolean (") +
+        (shaderbool1 ? "true" : "false") + ")");
+    ostringstream os2;
+    os2 << fixed << setprecision(2) << shaderfloat1;
+    p.print("[ ]      Change shader float (" + os2.str() + ")");
+    p.print("B        Change background color");
+    p.print("Esc      Quit");
+    glPopMatrix();                // Restore prev projection
+    glMatrixMode(GL_MODELVIEW);
+
+}
 
 /*
 // drawObject
@@ -171,6 +208,8 @@ void myDisplay()
             break;
     }
 
+
+
 // Set up 3-D
     glEnable(GL_DEPTH_TEST);
     glLoadIdentity();
@@ -187,8 +226,18 @@ void myDisplay()
     glUseProgramObjectARB(0);
     glColor3d(1., 1., 1.);
     glutSolidSphere(0.1, 20, 15);
-    glPopMatrix();
+ /**/
+glPopMatrix();
 
+glPushMatrix();
+glRotated(rotangle, 1.0, 2.0, 1.0);
+    glColor3d(4., 8., 6.);
+    glFrontFace(GL_CW);
+    glutSolidTeapot(1.0);
+    glFrontFace(GL_CCW); 
+glPopMatrix();
+  
+        
     // Make program object (if any) active
     glUseProgramObjectARB(theprog);
 
@@ -209,69 +258,42 @@ void myDisplay()
             glUniform1f(loc, GLfloat(shaderfloat1));
         }
 
-	loc = glGetUniformLocationARB(theprog, "MVP");
+	loc = glGetUniformLocationARB(theprog, "P");
 	if (loc != -1)
 	{
-//	    std::cout << "found shader" << std::endl;
-// 	    glPushMatrixd();
+	    std::cout << "found P" << std::endl;
+	    glGetFloatv(GL_PROJECTION_MATRIX, projection);
+	    glUniformMatrix4fv(loc, 1, GL_TRUE, projection);
+	}
+	loc = glGetUniformLocationARB(theprog, "MV");
+	if (loc != -1)
+	{
+	    std::cout << "found MV" << std::endl;
+ 	    glPushMatrix();
 //	    glMultMatrixd(cammat);
-	    glRotated(rotangle, 1.,2.,1.);
-	    glGetFloatv(GL_MODELVIEW_MATRIX, model);
-	    glUniformMatrix4fv(loc, 1, GL_TRUE, model);
-//	    glPopMatrixd();
+//	    glRotated(rotangle, 1.,2.,1.);
+	    glGetFloatv(GL_MODELVIEW_MATRIX, modelView);
+//	    glGetFloatv(GL_PROJECTION_MATRIX, projection);
+
+//	    glMultMatrixf(modelView);
+//	    glMultMatrixf(projection);
+//	    glGetFloatv(GL_MODELVIEW_MATRIX, modelView);
+	    glUniformMatrix4fv(loc, 1, GL_TRUE, modelView);
+	    glPopMatrix();
 	}
     }
 
-    // Draw the appropriate object
-  
-    glColor3d(0.8, 0.4, 0.6);
-//    drawBezierPatch(numsubdivs);
 
-    glBegin(GL_TRIANGLES);
-	glVertex3d(0,1,1);
-	glVertex3d(0,-1,-1);
-	glVertex3d(0,2,0);
-    glEnd();
+    glRotated(rotangle, 1.0, 2.0, 1.0);
+    glColor3d(4., 8., 6.);
+//    glFrontFace(GL_CW);
+    glutSolidTeapot(1.0);
+//    glFrontFace(GL_CCW);
 
-/*    // Set up 3-D
-    glEnable(GL_DEPTH_TEST);
-    glLoadIdentity();
-    glColor3d(0.1, 0.1, 0.9);
-    glBegin(GL_LINE_LOOP);
-        for (int i = 0; i < circle_segs; ++i)
-        {
-            double x = spinner_radius * cos(i * 2.*pi/circle_segs);
-            double y = spinner_radius * sin(i * 2.*pi/circle_segs);
-            glVertex2d(x, y);
-        }
-    glEnd();    
-
-    // Draw object
-    glLoadIdentity();
-    glTranslated(s1posx, s1posy, 0.);
-    glScaled(s1halfside, s1halfside, s1halfside);
-    glColor3d((draggedobj == 1) ? 1.0 : 0.0, 0.3, 0.3);
-    drawObject();
-*/    
 
     // Reset polygon mode
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-    // Draw documentation
-    glUseProgramObjectARB(0);     // No shaders
-    glDisable(GL_DEPTH_TEST);
-    glLoadIdentity();
-    glMatrixMode(GL_PROJECTION);  // Set up simple ortho projection
-    glPushMatrix();
-    glLoadIdentity();
-    gluOrtho2D(0., double(winw), 0., double(winh));
-    glColor3d(0., 0., 0.);        // Black text
-    BitmapPrinter p(20., winh-20., 20.);
-    p.print("Try clicking & dragging the shape");
-    p.print("1 2 3    Change object");
-    p.print("Esc      Quit");
-    glPopMatrix();                // Restore prev projection
-    glMatrixMode(GL_MODELVIEW);
+    documentation();
 
     glutSwapBuffers();
 }
